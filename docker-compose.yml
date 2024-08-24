@@ -24,7 +24,7 @@ services:
       - RABBITMQ_DEFAULT_PASSWORD=guest
   vproapp:
     build:
-      context: ./Docker-files/web
+      context: ./Docker-files/app
     image: miro0o96/app:v2
     container_name: vproapp
     ports:
