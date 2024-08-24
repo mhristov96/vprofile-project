@@ -1,0 +1,40 @@
+version: '3.9'
+  services:
+    vprodb:
+      build: 
+        context: ./Docker-files/db
+      image: miro0o96/db:v2
+      container_name: vprodb
+      ports:
+        - "3306:3306"
+      volumes:
+        - vprodbdata:/var/lib/mysql
+      environment:
+        - MYSQL_ROOT_PASSWORD=vprodbpass
+    vprocache01:
+      image: memcached
+      ports:
+        - "11211:11211"
+    vpromq01:
+      image: rabbitmq
+      ports:
+        - "15672:15672"
+      environment:
+        - RABBITMQ_DEFAULT_USER=guest
+        - RABBITMQ_DEFAULT_PASSWORD=guest
+    vproapp:
+      build:
+        context: ./Docker-files/web
+      image: miro0o96/app:v2
+      container_name: vproapp
+      ports:
+        - "8080:8080"               
+    vproweb:
+      build:
+         context: ./Docker-files/web
+      image: miro0o96/web:v2
+      container_name: vproweb
+      ports:
+        - "80:80"
+  volumes:
+    vprodbdata: {}
